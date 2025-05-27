@@ -1,5 +1,5 @@
 version: '3.8'
- 
+
 services:
   db:
     image: mysql:5.7
@@ -10,7 +10,9 @@ services:
       MYSQL_DATABASE: studentsdb
     ports:
       - "3306:3306"
- 
+    volumes:
+      - db_data:/var/lib/mysql  # optional: persist DB data
+
   web:
     build: .
     container_name: flask-app
@@ -18,3 +20,12 @@ services:
       - "5000:5000"
     depends_on:
       - db
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: password
+      DB_NAME: studentsdb
+
+volumes:
+  db_data:
+
